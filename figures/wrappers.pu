@@ -1,0 +1,51 @@
+@startuml
+
+interface Primitive<C : ExecutionContext> << (T,#3495eb) typealias >>  {
+  **alias for:** (Request<C>) -> //Sequence//<Response>
+}
+
+abstract class PrimitiveWrapper<C : ExecutionContext> {
+  + signature: Signature
+  + descriptionPair: Pair<Signature, Primitive>
+  + wrappedImplementation(Request<C>): Sequence<Response>
+}
+
+PrimitiveWrapper "1" .. "1" Primitive
+
+abstract class PredicateWitoutArguments {
+  + //Request<E>//.computeAll(): Sequence<Response>
+}
+
+PredicateWitoutArguments --|> PrimitiveWrapper
+
+abstract class UnaryPredicate {
+  + //Request<E>//.computeAll(Term): Sequence<Response>
+}
+
+UnaryPredicate --|> PrimitiveWrapper
+
+abstract class BinaryRelation {
+  + //Request<E>//.computeAll(Term, Term): Sequence<Response>
+}
+
+BinaryRelation --|> PrimitiveWrapper
+
+abstract class TernaryRelation {
+  + //Request<E>//.computeAll(Term, Term, Term): Sequence<Response>
+}
+
+TernaryRelation --|> PrimitiveWrapper
+
+abstract class QuaternaryRelation {
+  + //Request<E>//.computeAll(Term, Term, Term, Term): Sequence<Response>
+}
+
+QuaternaryRelation -right-|> PrimitiveWrapper
+
+abstract class QuinaryRelation {
+  + //Request<E>//.computeAll(Term, Term, Term, Term, Term): Sequence<Response>
+}
+
+QuinaryRelation -left-|> PrimitiveWrapper
+
+@enduml

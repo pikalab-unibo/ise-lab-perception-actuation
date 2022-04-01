@@ -1,0 +1,35 @@
+@startuml
+abstract class Solve 
+
+class Request<C : ExecutionContext> {
+    + signature: Signature
+    + arguments: List<Term>
+    + context: C
+    --
+    + replyWith(Solution): Response
+    + replyWith(Solution, **SideEffectsBuilder.() -> Unit**): Response
+    ..
+    + replySuccess(...): Response
+    + replyFail(...): Response
+    + replyException(...): Response
+}
+
+Request --|> Solve 
+
+class Response {
+    + solution: Solution
+    + sideEffects: List<SideEffect>
+}
+
+Response --|> Solve 
+
+interface Primitive<C : ExecutionContext> << (T,#3495eb) typealias >>  {
+  **alias for:** (Request<C>) -> //Sequence//<Response>
+}
+
+Primitive "1" <.. "1" Request
+
+Primitive "1" ..> "N" Response
+
+note top of Primitive: functions accepting 1 request and returning several responses
+@enduml
