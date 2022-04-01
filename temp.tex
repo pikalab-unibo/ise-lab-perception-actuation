@@ -1,0 +1,403 @@
+\hypertarget{perception-actuation-from-the-agent-perspective}{%
+\section{Perception \& Actuation from the Agent
+Perspective}\label{perception-actuation-from-the-agent-perspective}}
+
+\hypertarget{lecture-goals}{%
+\subsection{Lecture Goals}\label{lecture-goals}}
+
+\begin{itemize}
+\item
+  Understand how to enable the perception and actuation from the agent
+  perspective
+\item
+  Understand the notion of layered software system
+\item
+  Understand the key role of Application Programming Interfaces
+\end{itemize}
+
+\hypertarget{software-environments}{%
+\subsection{(Software) Environments}\label{software-environments}}
+
+\begin{itemize}
+\item
+  Environment = anything laying outside the agents
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Can be perceived via sensors (input)
+  \item
+    Can be affected via actuators (output)
+  \end{itemize}
+\item
+  Software agents can be abstractly modelled as composed by layers
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Some control software (e.g.~Java program / logic program /
+    AgentSpeak program)
+  \item
+    Some interpreter for that software (e.g.~JVM, Prolog interpreter,
+    Jason)
+  \item
+    Some OS mediating the usage of HW resources for the interpreter
+  \item
+    Hardware resources
+
+    \begin{itemize}
+    \tightlist
+    \item
+      memory, storage, computational power, I/O (there including
+      networking)
+    \end{itemize}
+  \end{enumerate}
+\item
+  From the sw agent's perspective, the environment is shaped by what
+  perceptual / actuatory actions in can perform
+\item
+  The agent may also be endowed with \textbf{epistemic} capabilities
+
+  \begin{itemize}
+  \tightlist
+  \item
+    eg memorise new knowledge
+  \item
+    eg forget memorised knowledge
+  \item
+    eg update memorised knowledge
+  \end{itemize}
+\item
+  Of course, endowing a sw agent with some perceptual / actuatory action
+  requires
+
+  \begin{itemize}
+  \tightlist
+  \item
+    some enabling HW facility to be present
+  \item
+    some OS functionality enabling the usage of that HW facility
+  \item
+    the interpreter to know how to call that OS functionality
+  \item
+    the programming language to have some ad-hoc API wrapping the OS
+    functionality
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{running-example}{%
+\subsubsection{Running example}\label{running-example}}
+
+The file system as an environment
+
+\begin{itemize}
+\item
+  reading a file as a string, given its path as the perception action
+\item
+  writing a file as a string, given its path as the actuation action
+\item
+  capability to memorize custom information
+\item
+  capability to discard memorised information
+\end{itemize}
+
+\hypertarget{prolog-agents}{%
+\subsection{Prolog Agents}\label{prolog-agents}}
+
+\begin{itemize}
+\item
+  Prolog is goal-oriented
+\item
+  Basic structure of a Prolog agent:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{start(}\DataTypeTok{Step}\NormalTok{) }\KeywordTok{:{-}} 
+\NormalTok{    natural(}\DataTypeTok{Step}\NormalTok{)}\KeywordTok{,}
+\NormalTok{    sleep(}\DecValTok{100} \CommentTok{/* ms */}\NormalTok{ )}\KeywordTok{,} \CommentTok{\% just to slow down the execution}
+\NormalTok{    act(}\DataTypeTok{Step}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{act(}\DataTypeTok{Step}\NormalTok{) }\KeywordTok{:{-}} \FunctionTok{write}\NormalTok{(}\StringTok{\textquotesingle{}}\ErrorTok{Hello world }\StringTok{\textquotesingle{}}\NormalTok{)}\KeywordTok{,} \FunctionTok{write}\NormalTok{(}\DataTypeTok{Step}\NormalTok{)}\KeywordTok{,} \FunctionTok{nl}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Hence, it is very easy to see a Prolog solver as an agent capable of
+  reasoning
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Knowledge base -\textgreater{} memory
+  \item
+    Resolution -\textgreater{} thinking / reasoning
+  \item
+    Assertion/retraction -\textgreater{} epistemic actions
+  \item
+    Write, ??? -\textgreater{} Actuation
+  \item
+    ??? -\textgreater{} Perception
+  \item
+    ??? -\textgreater{} Environment
+  \end{itemize}
+\end{itemize}
+
+\#\#\#~Example of thermostat agent in Prolog
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{warm\_range(}\DecValTok{20}\KeywordTok{,} \DecValTok{30}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{start }\KeywordTok{:{-}} 
+    \KeywordTok{repeat,}
+\NormalTok{    sleep(}\DecValTok{100} \CommentTok{/* ms */}\NormalTok{)}\KeywordTok{,} \CommentTok{\% just to slow down the execution}
+\NormalTok{    warm\_range(}\DataTypeTok{Min}\KeywordTok{,} \DataTypeTok{Max}\NormalTok{)}\KeywordTok{,}
+\NormalTok{    keep\_temperature(}\DataTypeTok{Min}\KeywordTok{,} \DataTypeTok{Max}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{keep\_temperature(}\DataTypeTok{Min}\KeywordTok{,} \DataTypeTok{Max}\NormalTok{) }\KeywordTok{:{-}} 
+\NormalTok{    check\_temperature(}\DataTypeTok{T}\NormalTok{)}\KeywordTok{,}
+\NormalTok{    handle\_temperature(}\DataTypeTok{T}\KeywordTok{,} \DataTypeTok{Min}\KeywordTok{,} \DataTypeTok{Max}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{check\_temperature(}\DataTypeTok{T}\NormalTok{) }\KeywordTok{:{-}}
+\NormalTok{    read\_text(}\OtherTok{"/}\ErrorTok{path}\OtherTok{/}\ErrorTok{to}\OtherTok{/}\ErrorTok{environment}\OtherTok{.}\ErrorTok{txt}\OtherTok{"}\KeywordTok{,} \DataTypeTok{T}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{handle\_temperature(}\DataTypeTok{T}\KeywordTok{,} \DataTypeTok{Min}\KeywordTok{,} \DataTypeTok{\_}\NormalTok{) }\KeywordTok{:{-}} \DataTypeTok{T}\NormalTok{ \textless{}= }\DataTypeTok{Min}\KeywordTok{,} \KeywordTok{!,}
+    \DataTypeTok{T1} \KeywordTok{=} \DataTypeTok{T} \FunctionTok{+} \DecValTok{1}\KeywordTok{,}
+\NormalTok{    write\_text(}\OtherTok{"/}\ErrorTok{path}\OtherTok{/}\ErrorTok{to}\OtherTok{/}\ErrorTok{environment}\OtherTok{.}\ErrorTok{txt}\OtherTok{"}\KeywordTok{,} \DataTypeTok{T1}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{handle\_temperature(}\DataTypeTok{T}\KeywordTok{,} \DataTypeTok{\_}\KeywordTok{,} \DataTypeTok{Max}\NormalTok{) }\KeywordTok{:{-}} \DataTypeTok{T} \DataTypeTok{\textgreater{}=} \DataTypeTok{Max}\KeywordTok{,} \KeywordTok{!,}
+    \DataTypeTok{T1} \KeywordTok{=} \DataTypeTok{T} \FunctionTok{{-}} \DecValTok{1}\KeywordTok{,}
+\NormalTok{    write\_text(}\OtherTok{"/}\ErrorTok{path}\OtherTok{/}\ErrorTok{to}\OtherTok{/}\ErrorTok{environment}\OtherTok{.}\ErrorTok{txt}\OtherTok{"}\KeywordTok{,} \DataTypeTok{T1}\NormalTok{)}\KeywordTok{.}
+
+\NormalTok{handle\_temperature(}\DataTypeTok{\_}\KeywordTok{,} \DataTypeTok{\_}\KeywordTok{,} \DataTypeTok{\_}\NormalTok{)}\KeywordTok{.} \CommentTok{\% otherwise do nothing }
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{things-to-be-noticed}{%
+\paragraph{Things to be noticed}\label{things-to-be-noticed}}
+
+\begin{itemize}
+\item
+  Knowledge base -\textgreater{} memory
+\item
+  Resolution -\textgreater{} thinking / reasoning
+\item
+  Assertion/retraction -\textgreater{} epistemic actions
+\item
+  File writing -\textgreater{} Actuation
+\item
+  File reading -\textgreater{} Perception
+\item
+  File system -\textgreater{} Environment
+\end{itemize}
+
+\hypertarget{todo-list}{%
+\paragraph{TODO list}\label{todo-list}}
+
+\begin{itemize}
+\tightlist
+\item
+  reading a file as a string, given its path as the perception action
+
+  \begin{itemize}
+  \tightlist
+  \item
+    read\_text/2 \textbf{(to be implemented)}
+  \end{itemize}
+\item
+  writing a file as a string, given its path as the actuation action
+
+  \begin{itemize}
+  \tightlist
+  \item
+    write\_text/2 \textbf{(to be implemented)}
+  \end{itemize}
+\item
+  capability to memorize custom information
+
+  \begin{itemize}
+  \tightlist
+  \item
+    assert/1, asserta/1, assertz/1 (provided)
+  \end{itemize}
+\item
+  capability to discard memorised information
+
+  \begin{itemize}
+  \tightlist
+  \item
+    retract/1 (provided)
+  \end{itemize}
+\end{itemize}
+
+\begin{quote}
+How to realise these kind of functionalities?
+\end{quote}
+
+\begin{quote}
+How to extend logic solver with further functionalities?
+\end{quote}
+
+\hypertarget{the-notion-of-generator}{%
+\subsection{The notion of Generator}\label{the-notion-of-generator}}
+
+\begin{quote}
+citation to jelia + figure generator.svg
+\end{quote}
+
+Logic solver's gateways towards the world
+
+Servers serving a solver's request to perform some functionality (and
+providing 0, 1, or more responses)
+
+\begin{itemize}
+\tightlist
+\item
+  a particular case of artefact, under a MAS perspective
+\end{itemize}
+
+Definition:
+
+\begin{itemize}
+\item
+  Signature: name + arity
+\item
+  Behaviour: function mapping \textbf{requests} to \textbf{\emph{a
+  stream of} responses}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Positive responses
+  \item
+    Negative responses
+  \item
+    Exceptional responses
+  \end{itemize}
+\item
+  Requests carry information about
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the execution context (at the time of request issuing)
+  \item
+    the \emph{actual} arguments of the request
+  \end{itemize}
+\item
+  Responses carry information about
+
+  \begin{itemize}
+  \tightlist
+  \item
+    success / failure / error
+  \item
+    substitution to be applied to variables
+  \item
+    side-effects to be applied to the execution context
+  \end{itemize}
+\end{itemize}
+
+Workflow:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  When attempting to solve a goal \texttt{G} the solver may try to use a
+  generator
+\item
+  Then it creates a request to be sent to the generator
+\item
+  The generator is then triggered: it produces a stream of responses
+\item
+  The solver lazily consumes the stream of responses
+
+  \begin{itemize}
+  \tightlist
+  \item
+    when a response is consumed depends on how the solver performs
+    resolution
+  \item
+    whenever a response is consumed, any side effect possibly carried by
+    that response is reified
+  \end{itemize}
+\item
+  Each response constitutes a branch in the proof three, to be explored
+  by the solver
+\end{enumerate}
+
+In pratice: 1. 2P-Kt provides the \texttt{Primitive} interface, to
+implemented by generators - many sub-types are available in practice to
+simplify programming generators
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Upon creation, solver accept \texttt{Libraries}, containing zero or
+  more primitives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    standard built-ins are constructed in this way
+  \end{itemize}
+\item
+  During resolution, solvers may exploit generators to solve (sub-)goals
+\end{enumerate}
+
+\#\#\#~Examples
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{natural(?N)} tests or generates natural numbers
+\item
+  \texttt{update(?Fact)} retract \& update a fact in a single
+  computational step
+\end{enumerate}
+
+\hypertarget{exercises}{%
+\subsection{Exercises}\label{exercises}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{read\_text(+Path,\ -Text)} reads whole file as \texttt{Text},
+  given its \texttt{Path}
+\item
+  \texttt{write\_text(+Path,\ +Text)} write \texttt{Text} as a whole
+  file, given its \texttt{Path}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    replaces the file silently if already present
+  \end{itemize}
+\item
+  support smooth termination for the thermostat agent
+\end{enumerate}
+
+\#\#~Discussion about the thermostat agent
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Pro-active or reactive?
+\item
+  Autonomous?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    w.r.t. motivational autonomy
+  \item
+    w.r.t. executive autonomy
+  \item
+    w.r.t. computational autonomy
+  \end{itemize}
+\item
+  Weak goal or strong goal?
+\end{enumerate}

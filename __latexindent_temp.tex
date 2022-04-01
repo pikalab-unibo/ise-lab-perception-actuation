@@ -59,90 +59,10 @@
 \section{(Software) Environments}
 %===============================================================================
 
-\begin{frame}{The Role of Perception and Actuation}
-    \begin{block}{\textbf{Environment} = anything laying outside the \textbf{agents}}
-        \begin{itemize}
-            \item
-              Can be \alert{perceived} via \emph{sensors}
-            \item
-              Can be \alert{affected} via \emph{actuators}
-        \end{itemize}
-    \end{block}
-
-    \begin{center}
-        \includegraphics[width=.5\linewidth]{figures/agent-environment.png}
-    \end{center}
-
-    \begin{alertblock}{About \textbf{computational} agents}
-        \begin{itemize}
-            \item `Perception' $\approx$ \alert{input}
-            \item `Actuation' $\approx$ \alert{output}
-        \end{itemize}
-    \end{alertblock}
-\end{frame}
-
-\begin{frame}{Layered View of the Software Agent}
-    Software agents can be abstractly modelled as composed by \alert{layers}:
-    %
-    \begin{columns}
-        \begin{column}{.5\linewidth}
-            \begin{enumerate}
-                \item Some control software
-                %
-                \begin{itemize}
-                    \item[eg] Java / logic / AgentSpeak program
-                \end{itemize}
-                
-                \item Some interpreter for that software (e.g.~JVM, Prolog interpreter, Jason)
-                %
-                \begin{itemize}
-                    \item[eg] Java / logic interpreter, Jason
-                \end{itemize}
-
-                \item Some OS mediating the usage of HW resources for the interpreter
-                
-                \item Hardware resources
-                %
-                \begin{itemize}
-                    \item[eg] memory, storage, computational power, I/O (there including networking)
-                \end{itemize}
-            \end{enumerate}
-        \end{column}
-        \begin{column}{.5\linewidth}
-            \includegraphics[width=\linewidth]{figures/layers.pdf}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{The Role of Action(s)}
-\begin{itemize}
-    \item From the SW agent's perspective, the environment is shaped by what perceptual / actuatory actions in can perform
-    %
+\begin{frame}{Basics}
     \begin{itemize}
-        \item[eg] sensing enviromental properties (temperature, humidity, light)
-        \item[eg] sensing distances  
+        \item 
     \end{itemize}
-
-
-    \item The agent may also be endowed with \textbf{epistemic} capabilities
-    %
-    \begin{itemize}
-        \item[eg] memorise new knowledge
-        \item[eg] forget memorised knowledge
-        \item[eg] update memorised knowledge
-    \end{itemize}
-
-    \item Of course, endowing a SW agent with some perceptual / actuatory action
-    requires
-    %
-    \begin{enumerate}
-        \item some enabling HW facility to be present
-        \item some OS functionality enabling the usage of that HW facility
-        \item the interpreter to know how to call that OS functionality
-        \item the programming language to have some ad-hoc API wrapping the OS functionality
-    \end{enumerate}
-\end{itemize}
-    
 \end{frame}
 
 %===============================================================================
@@ -197,7 +117,6 @@
 %	\tiny
     \scriptsize
 %	\footnotesize
-    \nocite{*}
     \bibliographystyle{apalike-AMS}
     \bibliography{ise-lab-perception-actuation}
 \end{frame}
