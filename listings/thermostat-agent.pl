@@ -14,12 +14,12 @@ keep_temperature(Min, Max) :-
 check_temperature(T) :-
     read_text("/path/to/environment.txt", T).
 
-handle_temperature(T, Min, _) :- T <= Min, !,
-    T1 = T + 1,
+handle_temperature(T, Min, _) :- T =< Min, !,
+    T1 is T + 1,
     write_text("/path/to/environment.txt", T1).
 
 handle_temperature(T, _, Max) :- T >= Max, !,
-    T1 = T - 1,
+    T1 is T - 1,
     write_text("/path/to/environment.txt", T1).
 
 handle_temperature(_, _, _). % otherwise do nothing 
