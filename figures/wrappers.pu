@@ -1,7 +1,7 @@
 @startuml
 
-interface Primitive<C : ExecutionContext> << (T,#3495eb) typealias >>  {
-  **alias for:** (Request<C>) -> //Sequence//<Response>
+interface Primitive<C : ExecutionContext> {
+  + solve(Request<C>) -> //Sequence//<Response>
 }
 
 abstract class PrimitiveWrapper<C : ExecutionContext> {

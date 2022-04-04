@@ -5,11 +5,11 @@ actor User
 
 User -> Solver: solve(//Goal//)
 
-Solver -> Primitive: **Request**(//Goal//)
+Solver -> Generator: **Request**(//Goal//)
 
 group Lazily enumerated, e.g. via //backtracking//
 
-Solver <-- Primitive: //Sequence//<**Response**>
+Solver <-- Generator: //Sequence//<**Response**>
 
 User <-- Solver: //Sequence//<**Solution**>
 

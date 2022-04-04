@@ -1,4 +1,6 @@
 @startuml
+left to right direction
+
 abstract class Solve 
 
 class Request<C : ExecutionContext> {
@@ -23,8 +25,8 @@ class Response {
 
 Response --|> Solve 
 
-interface Primitive<C : ExecutionContext> << (T,#3495eb) typealias >>  {
-  **alias for:** (Request<C>) -> //Sequence//<Response>
+interface Primitive<C : ExecutionContext> {
+  + solve(Request<C>) -> //Sequence//<Response>
 }
 
 Primitive "1" <.. "1" Request
