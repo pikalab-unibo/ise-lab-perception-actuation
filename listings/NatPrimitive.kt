@@ -11,12 +11,12 @@ fun natural(req: Solve.Request<ExecutionContext>): Sequence<Solve.Response> =
         else -> throw TypeError.forArgument(req.context, req.signature, TypeError.Expected.NUMBER, arg1, 0)
     }
 
-val mylib = Library.aliased(
+val mylib = Library.of(
     alias = "prolog.mylib", 
     primitives = mapOf(nat to ::natural)
 )
 
-val solver = Solver.prolog.solverOf(Libraries.of(mylib))
+val solver = Solver.prolog.solverOf(libraries = Runtime.of(mylib))
 println(solver.solveOnce(Struct.of("natural", Integer.ONE))) // yes
 println(solver.solveOnce(Struct.of("natural", Integer.MINUS_ONE))) // no
 println(solver.solveOnce(Struct.of("natural", Atom.of("a")))) // type_error

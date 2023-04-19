@@ -13,9 +13,9 @@ object Natural : UnaryPredicate<ExecutionContext>("natural") {
         value.intValue.signum >= 0
 }
 
-val mylib = Library.aliased(
+val mylib = Library.of(
     alias = "prolog.mylib", 
     primitives = mapOf(Natural.descriptionPair)
 )
 
-val solver = Solver.prolog.solverOf(Libraries.of(mylib))
+val solver = Solver.prolog.solverOf(libraries = Runtime.of(mylib))
