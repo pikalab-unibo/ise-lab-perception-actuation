@@ -13,11 +13,11 @@
 \usepackage{ise-lab-perception-actuation}
 % version
 \newcommand{\versionmajor}{1}
-\newcommand{\versionminor}{0}
-\newcommand{\versionpatch}{3}
+\newcommand{\versionminor}{1}
+\newcommand{\versionpatch}{0}
 \newcommand{\version}{\versionmajor.\versionminor.\versionpatch}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[\currentLab{} -- Perception \& Actuation]{Perception \& Actuation from the Agent Perspective}
+\title[\currentLab{} -- Logic Agents]{Logic Agents, Perception and Actuation}
 %
 \subtitle{\courseName{} / Module \moduleN{} (\courseAcronym)}
 %
@@ -49,6 +49,7 @@
 
 \begin{frame}{Lecture Goals}
     \begin{itemize}
+        \item Understand the role of logic programming as a tool for building agents
         \item Understand how to enable the perception and actuation from the agent perspective
         \item Understand the notion of layered software system
         \item Understand the key role of Application Programming Interfaces (API)
@@ -56,10 +57,10 @@
 \end{frame}
 
 %===============================================================================
-\section{(Software) Environments}
+\section{Software Agents}
 %===============================================================================
 
-\begin{frame}{The Role of Perception and Actuation}
+\begin{frame}{Overview on Software Agents}
     \begin{block}{\textbf{Environment} = anything laying outside the \textbf{agents}}
         \begin{itemize}
             \item
@@ -73,11 +74,14 @@
         \includegraphics[width=.5\linewidth]{figures/agent-environment.png}
     \end{center}
 
-    \begin{alertblock}{About \textbf{computational} agents}
-        \begin{itemize}
-            \item `Perception' $\approx$ \alert{input}
-            \item `Actuation' $\approx$ \alert{output}
-        \end{itemize}
+    \begin{alertblock}{Agent $\equiv$ \textbf{computational} agent}
+        \begin{multicols}{2}
+            \begin{itemize}
+                \item `Perception' $\approx$ \alert{input}
+                \item `Actuation' $\approx$ \alert{output}
+                \item Agent pursues \alert{goals} via \alert{computation}
+            \end{itemize}
+        \end{multicols}
     \end{alertblock}
 \end{frame}
 
@@ -112,6 +116,34 @@
             \includegraphics[width=\linewidth]{figures/layers.pdf}
         \end{column}
     \end{columns}
+\end{frame}
+
+\begin{frame}{Control Software}
+    \begin{itemize}
+        \item While running, the control software of an agent acts as its mind
+        
+        \vfill
+
+        \item Put simply, the control software should \alert{decide} what actions to do
+        %
+        \begin{itemize}
+            \item based on the current perception of the environment
+            \item in order to reach the agent's goals
+        \end{itemize}
+
+        \vfill
+
+        \item The control software commonly consists of a \alert{loop} (possibly, \emph{infinite})
+        
+        \vfill
+
+        \item Which programming languages to use for the control software?
+        %
+        \begin{itemize}
+            \item in principle, any programming language can be used
+            \item yet, logic programming (e.g. Prolog) comes with a natural support for \alert{goal-orientation}
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Actions from the Agent Perspective}
